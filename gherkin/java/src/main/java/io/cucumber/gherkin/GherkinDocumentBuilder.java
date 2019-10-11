@@ -21,11 +21,11 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.cucumber.gherkin.Parser.Builder;
 import static io.cucumber.gherkin.Parser.RuleType;
 import static io.cucumber.gherkin.Parser.TokenType;
-import static io.cucumber.gherkin.StringUtils.join;
 
 public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> {
     private Deque<AstNode> stack;
@@ -192,12 +192,9 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument.Builder> 
                 }
                 lineTokens = lineTokens.subList(0, end);
 
-                return join(new StringUtils.ToString<Token>() {
-                    @Override
-                    public String toString(Token t) {
-                        return t.matchedText;
-                    }
-                }, "\n", lineTokens);
+                return lineTokens.stream()
+                        .map(t -> t.matchedText)
+                        .collect(Collectors.joining("\n"));
             }
             case Feature: {
                 Feature.Builder builder = Feature.newBuilder();
