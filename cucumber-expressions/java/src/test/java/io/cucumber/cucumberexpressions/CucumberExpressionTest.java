@@ -36,6 +36,14 @@ public class CucumberExpressionTest {
     public void matches_word() {
         assertEquals(singletonList("blind"), match("three {word} mice", "three blind mice"));
     }
+    
+    @Test
+    public void matches_optional_and_alternation() {
+        assertEquals(emptyList(), match("three (brown )mice/rat/easter", "three brown mice"));
+        assertEquals(emptyList(), match("three (brown )mice/rat/easter", "three mice"));
+        assertEquals(emptyList(), match("three (brown )mice/rats/easter", "three brown rats"));
+        assertEquals(emptyList(), match("three (brown )mice/rats/easter", "three easter"));   
+    }
 
     @Test
     public void matches_double_quoted_string() {
