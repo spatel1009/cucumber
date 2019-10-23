@@ -38,6 +38,16 @@ public class CucumberExpressionTest {
     }
 
     @Test
+    public void matches_optional_and_alternation() {
+        assertEquals(emptyList(), match("the (test )call/email/chat interaction is not visible", "the test call interaction is not visible"));
+        assertEquals(emptyList(), match("the (test )call/email/chat interaction is not visible", "the call interaction is not visible"));
+        assertEquals(emptyList(), match("the (test )call/email/chat interaction is not visible", "the test email interaction is not visible"));
+        assertEquals(emptyList(), match("the (test )call/email/chat interaction is not visible", "the email interaction is not visible")); 
+        assertEquals(emptyList(), match("the (test )call/email/chat interaction is not visible", "the test chat interaction is not visible"));   
+        assertEquals(emptyList(), match("the (test )call/email/chat interaction is not visible", "the chat interaction is not visible"));   
+    }
+    
+    @Test
     public void matches_double_quoted_string() {
         assertEquals(singletonList("blind"), match("three {string} mice", "three \"blind\" mice"));
     }
